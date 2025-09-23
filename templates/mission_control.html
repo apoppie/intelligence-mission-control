@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Intelligence Mission Control - Claude Code Enhanced</title>
+    <link rel="stylesheet" href="static/mission_control.css">
+</head>
+<body>
+    <!-- CRT Screen Effects -->
+    <div class="crt-overlay"></div>
+    <div class="scanline"></div>
+
+    <div class="mission-control-container">
+        <!-- Mission Header -->
+        <header class="mission-header">
+            <div class="mission-title">
+                <h1>INTELLIGENCE MISSION CONTROL</h1>
+                <div class="mission-subtitle">AUTONOMOUS RESEARCH COMMAND CENTER</div>
+            </div>
+            <div class="system-status">
+                <div class="status-indicator">
+                    <span id="systemStatus" class="status-light online">●</span>
+                    <span class="status-text">CLAUDE CODE ACTIVE</span>
+                </div>
+                <div class="mission-clock">
+                    <span id="missionClock">00:00:00</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Mission Control Grid -->
+        <div class="control-grid">
+            <!-- Mission Status Panel -->
+            <section class="mission-status-panel">
+                <h2>MISSION STATUS</h2>
+                <div class="status-grid">
+                    <div class="status-item">
+                        <label>CURRENT PHASE:</label>
+                        <span id="currentPhase" class="phase-display">DORMANT</span>
+                    </div>
+                    <div class="status-item">
+                        <label>CYCLE ID:</label>
+                        <span id="cycleId" class="cycle-display">AWAITING</span>
+                    </div>
+                    <div class="status-item">
+                        <label>NEXT BURST:</label>
+                        <span id="nextBurst" class="countdown-display">--:--:--</span>
+                    </div>
+                    <div class="status-item">
+                        <label>INTELLIGENCE ITEMS:</label>
+                        <span id="intelligenceCount" class="metric-display">0</span>
+                    </div>
+                </div>
+
+                <!-- Mission Progress -->
+                <div class="mission-progress">
+                    <h3>OPERATIONAL PROGRESS</h3>
+                    <div class="progress-bar-container">
+                        <div id="missionProgressBar" class="progress-bar"></div>
+                        <span id="progressPercentage" class="progress-text">0%</span>
+                    </div>
+                    <div id="progressDetails" class="progress-details">System initialized</div>
+                </div>
+            </section>
+
+            <!-- Agent Status Grid -->
+            <section class="agent-status-grid">
+                <h2>AGENT TELEMETRY</h2>
+                <div class="agents-container">
+                    <div class="agent-card" data-agent="market_intelligence">
+                        <div class="agent-header">
+                            <h3>MARKET INTEL</h3>
+                            <span class="agent-status-light offline">●</span>
+                        </div>
+                        <div class="agent-metrics">
+                            <div class="metric">
+                                <label>STATUS:</label>
+                                <span class="agent-status-text">IDLE</span>
+                            </div>
+                            <div class="metric">
+                                <label>TASK:</label>
+                                <span class="agent-task">Standby</span>
+                            </div>
+                            <div class="metric">
+                                <label>CONFIDENCE:</label>
+                                <span class="agent-confidence">0.00</span>
+                            </div>
+                            <div class="metric">
+                                <label>PROGRESS:</label>
+                                <span class="agent-progress">0%</span>
+                            </div>
+                        </div>
+                        <div class="agent-activity">
+                            <div class="activity-text">Awaiting mission parameters</div>
+                        </div>
+                    </div>
+
+                    <div class="agent-card" data-agent="technology_surveillance">
+                        <div class="agent-header">
+                            <h3>TECH SURVEILLANCE</h3>
+                            <span class="agent-status-light offline">●</span>
+                        </div>
+                        <div class="agent-metrics">
+                            <div class="metric">
+                                <label>STATUS:</label>
+                                <span class="agent-status-text">IDLE</span>
+                            </div>
+                            <div class="metric">
+                                <label>TASK:</label>
+                                <span class="agent-task">Standby</span>
+                            </div>
+                            <div class="metric">
+                                <label>CONFIDENCE:</label>
+                                <span class="agent-confidence">0.00</span>
+                            </div>
+                            <div class="metric">
+                                <label>PROGRESS:</label>
+                                <span class="agent-progress">0%</span>
+                            </div>
+                        </div>
+                        <div class="agent-activity">
+                            <div class="activity-text">Awaiting mission parameters</div>
+                        </div>
+                    </div>
+
+                    <div class="agent-card" data-agent="policy_monitoring">
+                        <div class="agent-header">
+                            <h3>POLICY MONITOR</h3>
+                            <span class="agent-status-light offline">●</span>
+                        </div>
+                        <div class="agent-metrics">
+                            <div class="metric">
+                                <label>STATUS:</label>
+                                <span class="agent-status-text">IDLE</span>
+                            </div>
+                            <div class="metric">
+                                <label>TASK:</label>
+                                <span class="agent-task">Standby</span>
+                            </div>
+                            <div class="metric">
+                                <label>CONFIDENCE:</label>
+                                <span class="agent-confidence">0.00</span>
+                            </div>
+                            <div class="metric">
+                                <label>PROGRESS:</label>
+                                <span class="agent-progress">0%</span>
+                            </div>
+                        </div>
+                        <div class="agent-activity">
+                            <div class="activity-text">Awaiting mission parameters</div>
+                        </div>
+                    </div>
+
+                    <div class="agent-card" data-agent="osint_analysis">
+                        <div class="agent-header">
+                            <h3>OSINT ANALYSIS</h3>
+                            <span class="agent-status-light offline">●</span>
+                        </div>
+                        <div class="agent-metrics">
+                            <div class="metric">
+                                <label>STATUS:</label>
+                                <span class="agent-status-text">IDLE</span>
+                            </div>
+                            <div class="metric">
+                                <label>TASK:</label>
+                                <span class="agent-task">Standby</span>
+                            </div>
+                            <div class="metric">
+                                <label>CONFIDENCE:</label>
+                                <span class="agent-confidence">0.00</span>
+                            </div>
+                            <div class="metric">
+                                <label>PROGRESS:</label>
+                                <span class="agent-progress">0%</span>
+                            </div>
+                        </div>
+                        <div class="agent-activity">
+                            <div class="activity-text">Awaiting mission parameters</div>
+                        </div>
+                    </div>
+
+                    <div class="agent-card" data-agent="synthesis_agent">
+                        <div class="agent-header">
+                            <h3>SYNTHESIS</h3>
+                            <span class="agent-status-light offline">●</span>
+                        </div>
+                        <div class="agent-metrics">
+                            <div class="metric">
+                                <label>STATUS:</label>
+                                <span class="agent-status-text">IDLE</span>
+                            </div>
+                            <div class="metric">
+                                <label>TASK:</label>
+                                <span class="agent-task">Standby</span>
+                            </div>
+                            <div class="metric">
+                                <label>CONFIDENCE:</label>
+                                <span class="agent-confidence">0.00</span>
+                            </div>
+                            <div class="metric">
+                                <label>PROGRESS:</label>
+                                <span class="agent-progress">0%</span>
+                            </div>
+                        </div>
+                        <div class="agent-activity">
+                            <div class="activity-text">Awaiting mission parameters</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Control Panel -->
+            <section class="control-panel">
+                <h2>MISSION CONTROL</h2>
+
+                <!-- Mission Controls -->
+                <div class="control-section">
+                    <h3>MISSION OPERATIONS</h3>
+                    <div class="control-buttons">
+                        <button id="startMission" class="control-btn primary">START OPERATIONS</button>
+                        <button id="stopMission" class="control-btn danger" disabled>STOP OPERATIONS</button>
+                        <button id="emergencyBurst" class="control-btn warning">EMERGENCY BURST</button>
+                    </div>
+                </div>
+
+                <!-- Parameter Controls -->
+                <div class="control-section">
+                    <h3>MISSION PARAMETERS</h3>
+
+                    <div class="parameter-control">
+                        <label for="burstIntensity">BURST INTENSITY:</label>
+                        <div class="slider-container">
+                            <input type="range" id="burstIntensity" min="1" max="10" value="5" class="control-slider">
+                            <span id="intensityValue" class="slider-value">5</span>
+                        </div>
+                    </div>
+
+                    <div class="parameter-control">
+                        <label for="alertThreshold">ALERT THRESHOLD:</label>
+                        <div class="slider-container">
+                            <input type="range" id="alertThreshold" min="0.1" max="1.0" step="0.1" value="0.7" class="control-slider">
+                            <span id="thresholdValue" class="slider-value">0.7</span>
+                        </div>
+                    </div>
+
+                    <div class="parameter-control">
+                        <label for="focusAreas">FOCUS AREAS:</label>
+                        <div class="focus-areas-grid">
+                            <label class="checkbox-container">
+                                <input type="checkbox" id="marketFocus" checked>
+                                <span class="checkmark"></span>
+                                Market Intel
+                            </label>
+                            <label class="checkbox-container">
+                                <input type="checkbox" id="techFocus" checked>
+                                <span class="checkmark"></span>
+                                Technology
+                            </label>
+                            <label class="checkbox-container">
+                                <input type="checkbox" id="policyFocus" checked>
+                                <span class="checkmark"></span>
+                                Policy
+                            </label>
+                            <label class="checkbox-container">
+                                <input type="checkbox" id="osintFocus" checked>
+                                <span class="checkmark"></span>
+                                OSINT
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Intelligence Stream -->
+            <section class="intelligence-stream">
+                <h2>INTELLIGENCE STREAM</h2>
+                <div class="stream-controls">
+                    <button id="clearStream" class="stream-btn">CLEAR</button>
+                    <button id="exportData" class="stream-btn">EXPORT</button>
+                    <span class="stream-status">
+                        <span id="streamStatus" class="status-light offline">●</span>
+                        <span>MONITORING</span>
+                    </span>
+                </div>
+                <div id="intelligenceStream" class="stream-container">
+                    <div class="stream-placeholder">
+                        <div class="placeholder-icon">📡</div>
+                        <div class="placeholder-text">Awaiting intelligence data...</div>
+                        <div class="placeholder-subtext">Start mission operations to begin data collection</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- System Diagnostics -->
+            <section class="system-diagnostics">
+                <h2>SYSTEM DIAGNOSTICS</h2>
+                <div class="diagnostic-grid">
+                    <div class="diagnostic-item">
+                        <label>MCP SERVERS:</label>
+                        <span id="mcpStatus" class="diagnostic-value online">OPERATIONAL</span>
+                    </div>
+                    <div class="diagnostic-item">
+                        <label>DATABASE:</label>
+                        <span id="dbStatus" class="diagnostic-value online">CONNECTED</span>
+                    </div>
+                    <div class="diagnostic-item">
+                        <label>CLAUDE CODE:</label>
+                        <span id="claudeStatus" class="diagnostic-value online">ACTIVE</span>
+                    </div>
+                    <div class="diagnostic-item">
+                        <label>NETWORK:</label>
+                        <span id="networkStatus" class="diagnostic-value online">NOMINAL</span>
+                    </div>
+                </div>
+
+                <!-- Resource Usage -->
+                <div class="resource-usage">
+                    <h3>RESOURCE UTILIZATION</h3>
+                    <div class="resource-bar">
+                        <label>CPU:</label>
+                        <div class="usage-bar">
+                            <div id="cpuUsage" class="usage-fill" style="width: 25%"></div>
+                        </div>
+                        <span>25%</span>
+                    </div>
+                    <div class="resource-bar">
+                        <label>API CALLS:</label>
+                        <div class="usage-bar">
+                            <div id="apiUsage" class="usage-fill" style="width: 12%"></div>
+                        </div>
+                        <span>12%</span>
+                    </div>
+                    <div class="resource-bar">
+                        <label>MEMORY:</label>
+                        <div class="usage-bar">
+                            <div id="memoryUsage" class="usage-fill" style="width: 45%"></div>
+                        </div>
+                        <span>45%</span>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Alert System -->
+        <div id="alertSystem" class="alert-system hidden">
+            <div class="alert-header">
+                <h3>🚨 PRIORITY ALERT</h3>
+                <button id="dismissAlert" class="alert-dismiss">×</button>
+            </div>
+            <div id="alertContent" class="alert-content">
+                High-priority intelligence detected
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="static/mission_control.js"></script>
+</body>
+</html>

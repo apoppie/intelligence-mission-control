@@ -1,0 +1,912 @@
+/* NASA-Style Mission Control Interface */
+/* Inspired by real NASA mission control centers with modern enhancements */
+
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Share+Tech+Mono&display=swap');
+
+/* Color Palette - NASA Mission Control */
+:root {
+    /* Primary Colors */
+    --nasa-blue: #0B3D91;
+    --nasa-red: #FC3D21;
+    --nasa-white: #FFFFFF;
+
+    /* Terminal Colors */
+    --terminal-green: #00FF41;
+    --terminal-amber: #FFA500;
+    --terminal-cyan: #00FFFF;
+    --terminal-red: #FF4444;
+
+    /* Background Colors */
+    --space-black: #000000;
+    --console-dark: #0A0A0A;
+    --panel-dark: #151515;
+    --control-surface: #1E1E1E;
+
+    /* Status Colors */
+    --status-online: #00FF41;
+    --status-warning: #FFA500;
+    --status-critical: #FF4444;
+    --status-offline: #666666;
+
+    /* Accent Colors */
+    --electric-blue: #00D4FF;
+    --mission-orange: #FF6B35;
+    --data-purple: #8A2BE2;
+}
+
+/* Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Orbitron', 'Share Tech Mono', monospace;
+    background: var(--space-black);
+    color: var(--terminal-green);
+    overflow-x: hidden;
+    min-height: 100vh;
+    position: relative;
+}
+
+/* CRT Screen Effects */
+.crt-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: linear-gradient(
+        to bottom,
+        transparent 50%,
+        rgba(0, 255, 65, 0.02) 50%
+    );
+    background-size: 100% 4px;
+    pointer-events: none;
+    z-index: 9999;
+    animation: flicker 0.15s infinite linear;
+}
+
+.scanline {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 2px;
+    background: linear-gradient(
+        to bottom,
+        transparent,
+        var(--terminal-green),
+        transparent
+    );
+    opacity: 0.8;
+    animation: scanline 3s linear infinite;
+    z-index: 9998;
+    pointer-events: none;
+}
+
+@keyframes flicker {
+    0% { opacity: 1; }
+    95% { opacity: 1; }
+    96% { opacity: 0.98; }
+    97% { opacity: 1; }
+    98% { opacity: 0.99; }
+    100% { opacity: 1; }
+}
+
+@keyframes scanline {
+    0% { top: 0; }
+    100% { top: 100vh; }
+}
+
+/* Mission Control Container */
+.mission-control-container {
+    max-width: 1920px;
+    margin: 0 auto;
+    padding: 20px;
+    background: var(--console-dark);
+    min-height: 100vh;
+    border: 2px solid var(--terminal-green);
+    border-radius: 8px;
+    box-shadow:
+        0 0 50px rgba(0, 255, 65, 0.3),
+        inset 0 0 100px rgba(0, 0, 0, 0.8);
+}
+
+/* Mission Header */
+.mission-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 30px;
+    background: var(--panel-dark);
+    border: 2px solid var(--terminal-green);
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 0 20px rgba(0, 255, 65, 0.2);
+}
+
+.mission-title h1 {
+    font-family: 'Orbitron', monospace;
+    font-size: 2.5em;
+    font-weight: 900;
+    color: var(--terminal-green);
+    text-shadow: 0 0 20px var(--terminal-green);
+    letter-spacing: 3px;
+    margin-bottom: 8px;
+}
+
+.mission-subtitle {
+    font-size: 1em;
+    color: var(--terminal-amber);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.system-status {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+}
+
+.status-indicator {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.1em;
+}
+
+.status-light {
+    font-size: 1.5em;
+    text-shadow: 0 0 10px currentColor;
+    animation: pulse 2s infinite;
+}
+
+.status-light.online { color: var(--status-online); }
+.status-light.warning { color: var(--status-warning); }
+.status-light.critical { color: var(--status-critical); }
+.status-light.offline { color: var(--status-offline); }
+
+.mission-clock {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 2em;
+    color: var(--terminal-cyan);
+    text-shadow: 0 0 15px var(--terminal-cyan);
+    letter-spacing: 2px;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+}
+
+/* Control Grid Layout */
+.control-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto auto;
+    gap: 20px;
+    grid-template-areas:
+        "mission-status agent-status"
+        "control-panel intelligence-stream"
+        "diagnostics intelligence-stream";
+}
+
+/* Mission Status Panel */
+.mission-status-panel {
+    grid-area: mission-status;
+    background: var(--panel-dark);
+    border: 2px solid var(--terminal-cyan);
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);
+}
+
+.mission-status-panel h2 {
+    color: var(--terminal-cyan);
+    font-size: 1.4em;
+    margin-bottom: 20px;
+    text-shadow: 0 0 10px var(--terminal-cyan);
+    letter-spacing: 2px;
+    border-bottom: 2px solid var(--terminal-cyan);
+    padding-bottom: 10px;
+}
+
+.status-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.status-item {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.status-item label {
+    font-size: 0.9em;
+    color: var(--terminal-amber);
+    letter-spacing: 1px;
+}
+
+.phase-display {
+    font-size: 1.3em;
+    font-weight: bold;
+    color: var(--terminal-green);
+    text-shadow: 0 0 8px var(--terminal-green);
+}
+
+.cycle-display {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 1.1em;
+    color: var(--terminal-cyan);
+}
+
+.countdown-display {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 1.2em;
+    color: var(--terminal-amber);
+    font-weight: bold;
+}
+
+.metric-display {
+    font-size: 1.4em;
+    color: var(--terminal-green);
+    font-weight: bold;
+}
+
+/* Mission Progress */
+.mission-progress h3 {
+    color: var(--terminal-amber);
+    font-size: 1.1em;
+    margin-bottom: 15px;
+    letter-spacing: 1px;
+}
+
+.progress-bar-container {
+    position: relative;
+    width: 100%;
+    height: 25px;
+    background: var(--console-dark);
+    border: 2px solid var(--terminal-green);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 10px;
+}
+
+.progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--terminal-green), var(--terminal-cyan));
+    width: 0%;
+    transition: width 0.5s ease;
+    box-shadow: 0 0 10px rgba(0, 255, 65, 0.5);
+}
+
+.progress-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--nasa-white);
+    font-weight: bold;
+    text-shadow: 1px 1px 2px var(--space-black);
+}
+
+.progress-details {
+    font-size: 0.9em;
+    color: var(--terminal-amber);
+    font-style: italic;
+}
+
+/* Agent Status Grid */
+.agent-status-grid {
+    grid-area: agent-status;
+    background: var(--panel-dark);
+    border: 2px solid var(--terminal-amber);
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 0 15px rgba(255, 165, 0, 0.2);
+}
+
+.agent-status-grid h2 {
+    color: var(--terminal-amber);
+    font-size: 1.4em;
+    margin-bottom: 20px;
+    text-shadow: 0 0 10px var(--terminal-amber);
+    letter-spacing: 2px;
+    border-bottom: 2px solid var(--terminal-amber);
+    padding-bottom: 10px;
+}
+
+.agents-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.agent-card {
+    background: var(--control-surface);
+    border: 1px solid var(--terminal-green);
+    border-radius: 6px;
+    padding: 15px;
+    box-shadow: 0 0 10px rgba(0, 255, 65, 0.1);
+    transition: all 0.3s ease;
+}
+
+.agent-card:hover {
+    border-color: var(--terminal-cyan);
+    box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
+}
+
+.agent-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.agent-header h3 {
+    font-size: 1em;
+    color: var(--terminal-green);
+    letter-spacing: 1px;
+}
+
+.agent-status-light {
+    font-size: 1.2em;
+    text-shadow: 0 0 8px currentColor;
+}
+
+.agent-metrics {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.metric {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.metric label {
+    font-size: 0.75em;
+    color: var(--terminal-amber);
+    letter-spacing: 0.5px;
+}
+
+.agent-status-text,
+.agent-task,
+.agent-confidence,
+.agent-progress {
+    font-size: 0.85em;
+    color: var(--terminal-cyan);
+    font-family: 'Share Tech Mono', monospace;
+}
+
+.agent-activity {
+    background: var(--console-dark);
+    border: 1px solid var(--terminal-green);
+    border-radius: 4px;
+    padding: 8px;
+    font-size: 0.8em;
+    color: var(--terminal-green);
+    min-height: 40px;
+}
+
+/* Control Panel */
+.control-panel {
+    grid-area: control-panel;
+    background: var(--panel-dark);
+    border: 2px solid var(--mission-orange);
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 0 15px rgba(255, 107, 53, 0.2);
+}
+
+.control-panel h2 {
+    color: var(--mission-orange);
+    font-size: 1.4em;
+    margin-bottom: 20px;
+    text-shadow: 0 0 10px var(--mission-orange);
+    letter-spacing: 2px;
+    border-bottom: 2px solid var(--mission-orange);
+    padding-bottom: 10px;
+}
+
+.control-section {
+    margin-bottom: 25px;
+}
+
+.control-section h3 {
+    color: var(--terminal-amber);
+    font-size: 1.1em;
+    margin-bottom: 15px;
+    letter-spacing: 1px;
+}
+
+.control-buttons {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.control-btn {
+    padding: 12px 20px;
+    border: 2px solid;
+    border-radius: 6px;
+    background: var(--console-dark);
+    color: var(--terminal-green);
+    font-family: 'Orbitron', monospace;
+    font-weight: bold;
+    font-size: 0.9em;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+}
+
+.control-btn.primary {
+    border-color: var(--terminal-green);
+    color: var(--terminal-green);
+}
+
+.control-btn.primary:hover {
+    background: var(--terminal-green);
+    color: var(--space-black);
+    box-shadow: 0 0 20px var(--terminal-green);
+}
+
+.control-btn.danger {
+    border-color: var(--terminal-red);
+    color: var(--terminal-red);
+}
+
+.control-btn.danger:hover {
+    background: var(--terminal-red);
+    color: var(--nasa-white);
+    box-shadow: 0 0 20px var(--terminal-red);
+}
+
+.control-btn.warning {
+    border-color: var(--terminal-amber);
+    color: var(--terminal-amber);
+}
+
+.control-btn.warning:hover {
+    background: var(--terminal-amber);
+    color: var(--space-black);
+    box-shadow: 0 0 20px var(--terminal-amber);
+}
+
+.control-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Parameter Controls */
+.parameter-control {
+    margin-bottom: 20px;
+}
+
+.parameter-control label {
+    display: block;
+    color: var(--terminal-amber);
+    font-size: 0.9em;
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+}
+
+.slider-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.control-slider {
+    -webkit-appearance: none;
+    appearance: none;
+    flex: 1;
+    height: 8px;
+    background: var(--console-dark);
+    border: 1px solid var(--terminal-green);
+    border-radius: 4px;
+    outline: none;
+    cursor: pointer;
+}
+
+.control-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    background: var(--terminal-green);
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 0 10px var(--terminal-green);
+    transition: all 0.3s ease;
+}
+
+.control-slider::-webkit-slider-thumb:hover {
+    background: var(--terminal-cyan);
+    box-shadow: 0 0 15px var(--terminal-cyan);
+    transform: scale(1.2);
+}
+
+.slider-value {
+    min-width: 40px;
+    text-align: center;
+    color: var(--terminal-green);
+    font-weight: bold;
+    font-family: 'Share Tech Mono', monospace;
+}
+
+/* Focus Areas Grid */
+.focus-areas-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    color: var(--terminal-cyan);
+    font-size: 0.9em;
+}
+
+.checkbox-container input[type="checkbox"] {
+    display: none;
+}
+
+.checkmark {
+    width: 16px;
+    height: 16px;
+    border: 2px solid var(--terminal-green);
+    border-radius: 3px;
+    position: relative;
+    background: var(--console-dark);
+    transition: all 0.3s ease;
+}
+
+.checkbox-container input[type="checkbox"]:checked + .checkmark {
+    background: var(--terminal-green);
+    box-shadow: 0 0 8px var(--terminal-green);
+}
+
+.checkbox-container input[type="checkbox"]:checked + .checkmark::after {
+    content: "✓";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--space-black);
+    font-weight: bold;
+    font-size: 12px;
+}
+
+/* Intelligence Stream */
+.intelligence-stream {
+    grid-area: intelligence-stream;
+    background: var(--panel-dark);
+    border: 2px solid var(--electric-blue);
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 0 15px rgba(0, 212, 255, 0.2);
+    display: flex;
+    flex-direction: column;
+}
+
+.intelligence-stream h2 {
+    color: var(--electric-blue);
+    font-size: 1.4em;
+    margin-bottom: 15px;
+    text-shadow: 0 0 10px var(--electric-blue);
+    letter-spacing: 2px;
+    border-bottom: 2px solid var(--electric-blue);
+    padding-bottom: 10px;
+}
+
+.stream-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.stream-btn {
+    padding: 8px 16px;
+    border: 1px solid var(--terminal-cyan);
+    border-radius: 4px;
+    background: var(--console-dark);
+    color: var(--terminal-cyan);
+    font-family: 'Orbitron', monospace;
+    font-size: 0.8em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.stream-btn:hover {
+    background: var(--terminal-cyan);
+    color: var(--space-black);
+}
+
+.stream-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9em;
+    color: var(--terminal-cyan);
+}
+
+.stream-container {
+    flex: 1;
+    background: var(--console-dark);
+    border: 1px solid var(--electric-blue);
+    border-radius: 6px;
+    padding: 20px;
+    min-height: 300px;
+    max-height: 500px;
+    overflow-y: auto;
+    font-family: 'Share Tech Mono', monospace;
+}
+
+.stream-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: var(--terminal-amber);
+    text-align: center;
+}
+
+.placeholder-icon {
+    font-size: 3em;
+    margin-bottom: 15px;
+    opacity: 0.6;
+}
+
+.placeholder-text {
+    font-size: 1.2em;
+    margin-bottom: 8px;
+}
+
+.placeholder-subtext {
+    font-size: 0.9em;
+    opacity: 0.7;
+}
+
+/* System Diagnostics */
+.system-diagnostics {
+    grid-area: diagnostics;
+    background: var(--panel-dark);
+    border: 2px solid var(--data-purple);
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 0 15px rgba(138, 43, 226, 0.2);
+}
+
+.system-diagnostics h2 {
+    color: var(--data-purple);
+    font-size: 1.4em;
+    margin-bottom: 20px;
+    text-shadow: 0 0 10px var(--data-purple);
+    letter-spacing: 2px;
+    border-bottom: 2px solid var(--data-purple);
+    padding-bottom: 10px;
+}
+
+.diagnostic-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.diagnostic-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background: var(--control-surface);
+    border: 1px solid var(--terminal-green);
+    border-radius: 4px;
+}
+
+.diagnostic-item label {
+    font-size: 0.9em;
+    color: var(--terminal-amber);
+    letter-spacing: 1px;
+}
+
+.diagnostic-value {
+    font-weight: bold;
+    font-family: 'Share Tech Mono', monospace;
+}
+
+.diagnostic-value.online { color: var(--status-online); }
+.diagnostic-value.warning { color: var(--status-warning); }
+.diagnostic-value.critical { color: var(--status-critical); }
+.diagnostic-value.offline { color: var(--status-offline); }
+
+/* Resource Usage */
+.resource-usage h3 {
+    color: var(--terminal-amber);
+    font-size: 1.1em;
+    margin-bottom: 15px;
+    letter-spacing: 1px;
+}
+
+.resource-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.resource-bar label {
+    min-width: 80px;
+    font-size: 0.9em;
+    color: var(--terminal-amber);
+}
+
+.usage-bar {
+    flex: 1;
+    height: 12px;
+    background: var(--console-dark);
+    border: 1px solid var(--terminal-green);
+    border-radius: 6px;
+    overflow: hidden;
+}
+
+.usage-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--terminal-green), var(--terminal-cyan));
+    transition: width 0.5s ease;
+    box-shadow: 0 0 8px rgba(0, 255, 65, 0.5);
+}
+
+.resource-bar span {
+    min-width: 40px;
+    font-size: 0.9em;
+    color: var(--terminal-cyan);
+    font-weight: bold;
+}
+
+/* Alert System */
+.alert-system {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: var(--panel-dark);
+    border: 3px solid var(--terminal-red);
+    border-radius: 8px;
+    padding: 25px;
+    min-width: 400px;
+    max-width: 600px;
+    box-shadow:
+        0 0 50px rgba(255, 68, 68, 0.5),
+        inset 0 0 20px rgba(255, 68, 68, 0.1);
+    z-index: 10000;
+    animation: alertPulse 1s infinite alternate;
+}
+
+.alert-system.hidden {
+    display: none;
+}
+
+.alert-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.alert-header h3 {
+    color: var(--terminal-red);
+    font-size: 1.3em;
+    text-shadow: 0 0 10px var(--terminal-red);
+}
+
+.alert-dismiss {
+    background: none;
+    border: 2px solid var(--terminal-red);
+    color: var(--terminal-red);
+    font-size: 1.5em;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.alert-content {
+    color: var(--nasa-white);
+    font-size: 1.1em;
+    line-height: 1.4;
+}
+
+@keyframes alertPulse {
+    0% { box-shadow: 0 0 50px rgba(255, 68, 68, 0.5), inset 0 0 20px rgba(255, 68, 68, 0.1); }
+    100% { box-shadow: 0 0 80px rgba(255, 68, 68, 0.8), inset 0 0 30px rgba(255, 68, 68, 0.2); }
+}
+
+/* Scrollbar Styling */
+.stream-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.stream-container::-webkit-scrollbar-track {
+    background: var(--console-dark);
+    border-radius: 4px;
+}
+
+.stream-container::-webkit-scrollbar-thumb {
+    background: var(--terminal-green);
+    border-radius: 4px;
+    box-shadow: 0 0 5px var(--terminal-green);
+}
+
+.stream-container::-webkit-scrollbar-thumb:hover {
+    background: var(--terminal-cyan);
+    box-shadow: 0 0 8px var(--terminal-cyan);
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .control-grid {
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            "mission-status"
+            "agent-status"
+            "control-panel"
+            "intelligence-stream"
+            "diagnostics";
+    }
+
+    .agents-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .mission-control-container {
+        padding: 10px;
+    }
+
+    .mission-header {
+        flex-direction: column;
+        text-align: center;
+        gap: 15px;
+    }
+
+    .mission-title h1 {
+        font-size: 2em;
+    }
+
+    .status-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .control-buttons {
+        flex-direction: column;
+    }
+
+    .focus-areas-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .diagnostic-grid {
+        grid-template-columns: 1fr;
+    }
+}
