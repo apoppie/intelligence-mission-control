@@ -38,7 +38,7 @@ A NASA-inspired autonomous intelligence gathering system powered by Claude Code,
 
 1. **Clone the repository:**
 ```bash
-git clone https://github.com/yourusername/intelligence-mission-control.git
+git clone https://github.com/apoppie/intelligence-mission-control.git
 cd intelligence-mission-control
 ```
 
