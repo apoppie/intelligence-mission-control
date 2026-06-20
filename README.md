@@ -2,6 +2,8 @@
 
 A NASA-inspired autonomous intelligence gathering system powered by Claude Code, featuring specialized agents, real-time monitoring, and 15-minute burst cycles.
 
+![The mission control interface: a CRT-styled command center with agent telemetry panels for market intel, surveillance, policy, OSINT, and synthesis](docs/mission-control.png)
+
 ## Features
 
 🚀 **NASA-Style Mission Control Interface**
